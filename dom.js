@@ -20,7 +20,8 @@ var additems = document.getElementById('add-items');
 additems.style.color = 'green';
 additems.style.fontWeight = 'bold';
 
-//Task 4 
+//Task 5
+
 
 var items = document.getElementsByClassName('list-group-item');
 items[1].style.backgroundcolor = 'green';
@@ -28,3 +29,11 @@ for(let i=0; i<items.length; i++){
     items[i].style.fontWeight = 'bold';
 }
 
+
+
+var li = document.getElementsByTagName('li');
+li[1].textContent = 'Hello 2';
+
+for(var i=0; i<li.length; i++){
+    li[i].style.backgroundcolor = '#f4f4f4';
+}
