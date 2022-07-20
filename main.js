@@ -1,4 +1,4 @@
-windows.onload = function() {
+
     function store(event) {
         event.preventDefault();
         const username = event.target.name.value;
@@ -21,26 +21,54 @@ windows.onload = function() {
     
     }
 
-    function userOnScreen(user) {
-        const parentNode = document.getElementById('listofusers');
-        const childHTML = `<li> ${user.username} -${user.email} </li>`
+    window.addEventListener("DOMContentLoaded", () => {
+        const localStorageObj = localStorage;
+        const localstoragekeys  = Object.keys(localStorageObj)
+
+        for(var i =0; i< localstoragekeys.length; i++){
+            const key = localstoragekeys[i]
+            const userDetailsString = localStorageObj[key];
+            const userDetailsObj = JSON.parse(userDetailsString);
+            userOnScreen(userDetailsObj)
+        }
+    })
+
     
-        parentNode.innerHTML = childHTML;
+
+
+
+function userOnScreen(user) {
+    
+    const parentNode = document.getElementById('listofusers');
+    const childHTML = `<li id=${user.email}> ${user.username} -${user.email}
+    <button onlclick ="deleteUser('${user.email})" > Delete User </button>
+    <button onclick=editUserDetails('${user.email}','${user.name}')>Edit User </button>
+    </li>`
+
+    parentNode.innerHTML = parentNode.innerHTML + childHTML;
+}
+
+function editUserDetails(email, name) {
+    document.getElementById('email').value = email;
+    document.getElementById('name').value = name;
+
+    deleteUser(email);
+}
+
+function deleteUser(email) {
+    localStorage.removeItem(email);
+    removeFromScreen(email);
+}
+
+function removeFromScreen(email) {
+    const parentNode = document.getElementById('listofusers');
+    const childNodeToBeDeleted = document.getElementById(email);
+    if(childNodeToBeDeleted){
+    parentNode.removeChild(childNodeToBeDeleted);
     }
 }
 
 
-function userOnScreen(user) {
-    const parentNode = document.getElementById('listofusers');
-    const childHTML = `<li> ${user.username} -${user.email} </li>`
-
-    parentNode.innerHTML = childHTML;
-}
-
-window.onbeforeunload = function() {
-    localStorage.setItem('username', $('#name').val());
-    localStorage.setItem('email', $('#email').val());
-}
 
 
 
